@@ -12,14 +12,15 @@ const client = new Client({
 client.on('ready', async () => {
   const guild = await client.guilds.fetch(process.env.GUILD_ID)
 
+  const LAMPORTS_PER_SOL = 1000000000
   const floor = 'floor'
   const url = 'https://api-mainnet.magiceden.dev/v2/collections/fatcats_capital/stats'
 
   setInterval(async () => {
     const { data } = await axios.get(url)
-    const floorPrice = data.floorPrice / 1000000000
+    const floorPrice = data.floorPrice / LAMPORTS_PER_SOL
     guild.me.setNickname(`${floor.toUpperCase()}: ${floorPrice} SOL`)
-  }, 5000);
+  }, 60000 * 5);
 
   let last24Prices = []
   let pointer = 0
@@ -28,7 +29,7 @@ client.on('ready', async () => {
 
   setInterval(async () => {
     const { data } = await axios.get(url)
-    const floorPrice = data.floorPrice / 1000000000
+    const floorPrice = data.floorPrice / LAMPORTS_PER_SOL
     
     if (last24Prices[pointer]) {
       let percentChange = ((floorPrice/last24Prices[pointer] -1) * 100).toFixed(2)
