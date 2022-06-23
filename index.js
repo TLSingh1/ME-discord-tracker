@@ -56,7 +56,7 @@ client.on('ready', async () => {
         pointer+=1;
       }
     }
-  }, 1000)
+  }, 60000 * 60)
 
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, 'commands'),
